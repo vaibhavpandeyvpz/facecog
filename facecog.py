@@ -80,21 +80,17 @@ def run_app():
     cap.set(cv2.CAP_PROP_BUFFERSIZE, 3)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-    skip = False
-    matches = []
     while True:
         _, frame = cap.read()
-        if not skip:
-            matches = []
-            mini = cv2.resize(frame, (0, 0), fx=1 / RESIZE, fy=1 / RESIZE)
-            rgb = cv2.cvtColor(mini, cv2.COLOR_BGR2RGB)
-            rects, found = detect_faces(rgb)
-            for i, face in enumerate(found):
-                matched = numpy.linalg.norm(known - face, axis=1)
-                for j, difference in enumerate(matched):
-                    if difference <= 0.5:
-                        matches.append((ids[j], difference, rects[i]))
-        skip = not skip
+        matches = []
+        mini = cv2.resize(frame, (0, 0), fx=1 / RESIZE, fy=1 / RESIZE)
+        rgb = cv2.cvtColor(mini, cv2.COLOR_BGR2RGB)
+        rects, found = detect_faces(rgb)
+        for i, face in enumerate(found):
+            matched = numpy.linalg.norm(known - face, axis=1)
+            for j, difference in enumerate(matched):
+                if difference <= 0.5:
+                    matches.append((ids[j], difference, rects[i]))
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         image = Image.fromarray(rgb)
         draw = ImageDraw.Draw(image)
