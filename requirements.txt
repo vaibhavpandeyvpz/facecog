@@ -1,6 +1,6 @@
+dlib
 msgpack
 msgpack-numpy
 numpy
 opencv-python
 pillow
-dlib
